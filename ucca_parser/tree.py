@@ -17,15 +17,17 @@ class Tree:
         queue = deque([self.root])
         while queue:
             current_node = queue.popleft()
+            cn_depth = current_node.get_depth()
             # expand
             if not isinstance(current_node,node.Terminal):
                 for edge in current_node.get_outgoing_edges():
                     tag = edge.tag
                     child = edge.child
+                    nn_depth = cn_depth+1
                     if tag=="T":
-                        next_node = node.Terminal(child,tag,child.text)
+                        next_node = node.Terminal(child,tag,child.text,nn_depth)
                     else: 
-                        next_node = node.Internal(child,tag)
+                        next_node = node.Internal(child,tag,nn_depth)
                     current_node.add_child(next_node)
                     # set parent
                     next_node.add_parent(current_node)
@@ -42,8 +44,11 @@ class Tree:
             elif isinstance(n[1],node.Terminal):
                 print "Terminal: ",n.tag,n.text
 
-    def print_tree(self):
-        print self.root
+    def print_tree_indent(self):
+        return self.root.print_node_indent()
+
+    def print_tree_penn(self):
+        return self.root.print_node_penn()
 
     def get_root(self):
         return self.root

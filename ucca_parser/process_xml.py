@@ -57,7 +57,7 @@ def split_sents(passage):
     # Node 1.1 is always a root FN node
     outgoing_edges = passage.layer('1').all[0].outgoing
     # root_nodes: H, U, L nodes at the top
-    root_nodes = map(lambda x: node.Internal(x.child,x.tag),outgoing_edges)
+    root_nodes = map(lambda x: node.Internal(x.child,x.tag,0),outgoing_edges)
     words = passage.layer('0').all
     par = ' '.join(map(lambda x: x.text,words))
     tok_par_nodes = correct_split(sent_tokenize(par),root_nodes)
@@ -67,7 +67,7 @@ def split_sents(passage):
         for head_node in head_nodes:
             tree = Tree(head_node)
             tree.fill_tree()
-            tree.print_tree()
+            print tree.print_tree_penn()
             # tree.print_nodes()
 
 
